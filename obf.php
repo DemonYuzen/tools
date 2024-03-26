@@ -2,7 +2,7 @@
 /*
  * @author Weidi Zhang
  */
-// usage php ob.php
+// usage php obf.php
 $myCode = file_get_contents('file.php', true);
 
 echo SmartObfuscator::obfuscate($myCode);
