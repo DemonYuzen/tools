@@ -21,7 +21,7 @@ select target_folder in */; do
         show_deepest_folders "$target_folder"
         break
     else
-        echo -e "\e[31mPilih yang bener.\e[0m"
+        echo -e "\e[31mPilih yang bener dong.\e[0m"
     fi
 done
 
@@ -45,4 +45,4 @@ for file in x/*.php; do
 done
 rm -rf x
 
-echo -e "\e[32mSelesai.\e[0m"
+echo -e "\e[32mCoded By HaxorWorld.\e[0m"
