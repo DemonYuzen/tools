@@ -7,6 +7,15 @@
 -/
 /digv2.php
 /sandwich.php
+/hid.php
+/.config.php
+/go.php
+/boy.php
+/views.php
+/view.php
+/program.php
+/jquery.php
+/kem.php
 /ganesh.php
 /data-tools.php
 /module-view.php
