@@ -4,6 +4,7 @@
 %20/
 /-/
 %20
+/eval-stdin.php
 -/
 /digv2.php
 /sandwich.php
