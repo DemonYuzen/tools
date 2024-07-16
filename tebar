@@ -4,12 +4,6 @@
 echo -n "Masukkan nama file yang akan disalin: "
 read file_name
 
-# Memeriksa apakah file yang akan disalin ada
-if [ ! -f "$file_name" ]; then
-    echo "Error: File '$file_name' tidak ditemukan."
-    exit 1
-fi
-
 # Meminta input dari user untuk direktori tempat pemindaian akan dilakukan
 echo -n "Masukkan direktori tempat pemindaian akan dilakukan (contoh: /home/muratara/public_html): "
 read scan_directory
@@ -42,12 +36,28 @@ if [ ! -d "$destination_dir" ]; then
     exit 1
 fi
 
+# Meminta konfirmasi dari pengguna sebelum menyalin file
+echo
+echo "Anda akan menyalin file '$file_name' ke setiap direktori writable yang ditemukan di '$scan_directory' ke '$destination_dir'."
+echo -n "Lanjutkan (y/n)? "
+read confirm
+
+# Memeriksa apakah pengguna ingin melanjutkan
+if [ "$confirm" != "y" ]; then
+    echo "Penyalinan dibatalkan."
+    exit 0
+fi
+
 # Menyalin file ke setiap direktori yang writable yang ditemukan
-echo "Menyalin file '$file_name' ke setiap direktori writable yang ditemukan di '$scan_directory':"
+echo
+echo "Menyalin file '$file_name' ke setiap direktori writable yang ditemukan di '$scan_directory' ke '$destination_dir':"
 
 for dir in $writable_dirs; do
-    cp "$file_name" "$dir" >/dev/null 2>&1  # Menggunakan /dev/null untuk mengabaikan output dari cp
+    cp "$file_name" "$destination_dir" >/dev/null 2>&1  # Menggunakan /dev/null untuk mengabaikan output dari cp
     echo "- $dir"
+    # Mengubah izin file yang sudah disalin menjadi 0444
+    chmod 0444 "$destination_dir/$(basename $file_name)"
 done
 
-echo "Penyalinan selesai."
+echo
+echo "Penyalinan dan pengaturan izin selesai."
