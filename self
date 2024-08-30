@@ -1,5 +1,5 @@
 #!/bin/bash
-# Code By HaxorWorld
+# Code By CHATGPT
 
 self_healing_script_path="/usr/local/bin/self"
 service_file_path="/etc/systemd/system/self.service"
